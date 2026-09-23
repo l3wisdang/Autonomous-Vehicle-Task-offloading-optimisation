@@ -5,11 +5,11 @@
 **8.2% lower daily cost than the industry-standard heuristic, using the same hardware**
 Built with Python · Gurobi · pandas · NumPy · matplotlib
 
-📄 [Read the full report (PDF)](AV_Task_Offloading_Report.pdf)
+[Read the full report (PDF)](AV_Task_Offloading_Report.pdf)
 
 ---
 
-## 📌 Key Results
+## Key Results
 
 - **The integer linear program cut daily processing cost from SGD 2.2575 to SGD 2.0732 (8.2%)** versus the standard Greedy-Local rule, without buying any extra hardware. The saving comes entirely from smarter offloading decisions, not a bigger budget.
 - **In the latency model, the ILP achieved a total latency of 12,748 versus 24,522 for Greedy-Local and 74,745 for Greedy-Cloud**, roughly halving the best heuristic while still respecting every safety constraint.
@@ -18,7 +18,7 @@ Built with Python · Gurobi · pandas · NumPy · matplotlib
 
 ---
 
-## 🧠 Why This Project
+## Why This Project
 
 What pulled me into this was the gap between a rule of thumb and an actual optimiser. AV tasks compete for limited onboard compute, and each one can either run locally (fast, but the hardware is expensive) or be sent to the cloud (cheap hardware, but you pay per task and eat network latency). Most systems just follow a fixed rule. I wanted to see how much you give up by doing that, so I set it up properly: minimise total cost, subject to a safety rule, a compute-capacity limit and a latency requirement, and let the solver weigh all 800 tasks at once.
 
@@ -28,7 +28,7 @@ It also sits naturally next to my other work. The [Black-Litterman Sector Rotati
 
 ---
 
-## 📦 Technologies
+## Technologies
 
 | Tool | Purpose |
 |---|---|
@@ -39,7 +39,7 @@ It also sits naturally next to my other work. The [Black-Litterman Sector Rotati
 
 ---
 
-## ⚙️ Method in Brief
+## Method in Brief
 
 The data is a vehicular simulation dataset (VEINS OMNeT++), filtered to a single vehicle and stratified-sampled down to 800 representative tasks as a one-day workload. Each task carries a size, available local CPU, network latency, signal strength, priority and weather condition. A binary `force_local` safety flag is set whenever the signal is weak or weather is severe, which applied to about 11% of tasks.
 
@@ -51,7 +51,7 @@ The full formulation, assumptions, scenario tables, feasibility analysis and lim
 
 ---
 
-## 📚 What I Learned
+## What I Learned
 
 **Global optimisation beats local rules precisely when resources are scarce.** The gap between the ILP and the greedy baseline was widest at low CPU buffers, the exact high-load conditions a real vehicle faces most often. When capacity was generous the two converged, because there is little to optimise. The model adds the most value where it matters most.
 
@@ -61,7 +61,7 @@ The full formulation, assumptions, scenario tables, feasibility analysis and lim
 
 ---
 
-## 💬 How Can It Be Improved?
+## How Can It Be Improved?
 
 - **Rolling-horizon scheduling.** The current model is a static single-period batch over 800 tasks. Real tasks arrive sequentially, so a production version should re-optimise over short look-ahead windows.
 - **Priority-weighted objective.** The dataset has a task priority field that does not yet enter the objective. Weighting high-priority tasks would let the optimiser explicitly protect safety-critical work.
@@ -70,7 +70,7 @@ The full formulation, assumptions, scenario tables, feasibility analysis and lim
 
 ---
 
-## 🔌 Running the Project
+## Running the Project
 
 ```bash
 pip install gurobipy pandas numpy matplotlib
@@ -81,7 +81,7 @@ Gurobi requires a licence; a free academic licence covers a problem of this size
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Group project for BC2411 Prescriptive Analytics, Nanyang Technological University. Team members: Lee Pei Wen, Pahwa Ronak, Lewis Dang, Sheng Xiaxi.
 - Qayyum, T. (2025). [Vehicular Simulation Dataset (VEINS OMNeT++)](https://www.kaggle.com/datasets/ranatariq09/vehicular-simulation-dataset-veins-omnet). Kaggle.
